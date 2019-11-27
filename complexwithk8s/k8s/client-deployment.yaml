@@ -1,0 +1,21 @@
+apiVersion: apps/v1 ## api version
+kind: Deployment ## type
+metadata:
+  name: client-deployment ##name
+spec: 
+  replicas: 3 ## number of copies to run
+  selector: 
+    matchLabels:
+       component: web # to monitor pods tagged with the name of web container
+  template:
+    metadata:
+      labels:
+        component: web   #to map pods to deployment as a deployment file can have multiple labels asigneed  to pod
+    spec:
+      containers:
+        - name: client ## container name running on pod
+          image: stephengrider/multi-client ## name of the image to be running on the pod
+          ports:
+            - containerPort: 3000 ##to run this internally in the port
+
+

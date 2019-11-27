@@ -1,0 +1,28 @@
+### main purpose of using persistance volume storage is to same data to a memmory that persists even if the daatabase falls down
+apiVersion: apps/v1 # api version for deployment
+kind: Deployment # type of file
+metadata: # metadata to indentify the container
+  name: postgres-deployment #metatag or the name of file
+spec: #specifications of that deployment
+  replicas: 1 # no of copies of pods to run
+  selector: # to monitor pods tagged with the name of postgres container
+    matchLabels:  # to match the label 
+      component: postgres  # to match the name of postgres containers pods
+  template: #for pod to be created by this deployment file
+    metadata: 
+      labels: #label to the pods
+        component: postgres     #to map pods to deployment as a deployment file can have multiple labels asigneed  to pod
+    spec:
+      volumes:
+        - name: postgres-storage # persistant volume name
+          persistentVolumeClaim:
+              claimName: database-persistent-volume-claim #to point to pvc configeration
+      containers:
+        - name: postgres  # name of the volume
+          image: postgres # what volume to use
+          ports:
+            - containerPort: 5432 # at what port inside the container this image has to run
+          volumeMounts:
+            - name: postgres-storage # to mount volumes that are present with the same name or to address the same volume name
+              mountPath:  /var/lib/postgresql/data  #default postgress storage location
+              subPath: postgres  # data is to be stored in the folder postgres in that pvc

@@ -1,0 +1,10 @@
+apiVersion: v1 ## api version
+kind: PersistentVolumeClaim  ##kind
+metadata:
+  name: database-persistent-volume-claim ##name
+spec:
+  accessModes:
+    - ReadWriteOnce ## to let only one service to interact one  they are of three type readwritemany ReadMultiple writeMultiple
+  resources:
+    requests:
+      storage: 2Gi  ##to use only 2gb of storage

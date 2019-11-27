@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-service
+  annotations: 
+     kubernetes.io/ingress.class: nginx # to create a ingress controller based onnginx 
+     nginx.ingress.kubernetes.io/rewrite-target: / # to remove /api and rewrite
+spec:
+  rules:
+    - http:
+        paths: #list of routing 
+          - path: / # / path to redirect to cluster-ip-service
+            backend:
+              serviceName: client-cluster-ip-service 
+              servicePort: 3000
+          - path: /api/ # / path to redirect to server-client-service
+            backend: 
+              serviceName: server-cluster-ip-service
+              servicePort: 5000

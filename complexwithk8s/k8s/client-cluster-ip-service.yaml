@@ -1,0 +1,12 @@
+## cluster ip is used to connect to inside  service within a container not to the outside world like node ports
+apiVersion: v1 ## apiversion used
+kind: Service ##type
+metadata:
+  name: client-cluster-ip-service ## name of service
+spec:
+  type: ClusterIP ## sub type
+  selector:
+    component: web ##target pod
+  ports:
+    - port: 3000 ##port to run on
+      targetPort: 3000   ##port to monitor
